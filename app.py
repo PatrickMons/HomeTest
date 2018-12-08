@@ -47,36 +47,36 @@ class HttpWSSProtocol(websockets.WebSocketServerProtocol):
             #print("Req-->"+alexaRequest)
             RequestJson = json.loads(alexaRequest)['request']['intent']['slots']
 
-            if 'is' not in RequestJson['query'].values() and 'what' not in RequestJson['query'].values():
+            if 'imposta' not in RequestJson['domanda'].values() and 'stato' not in RequestJson['domanda'].values():
 
                 print('cmd')
-                if 'value' not in RequestJson['Switch_State'].keys():
-                    value = RequestJson['Numbers']['value']
-                    obj = RequestJson['tmp_scale']['value']
+                if 'value' not in RequestJson['statoswitch'].keys():
+                    value = RequestJson['numeri']['value']
+                    obj = RequestJson['temperatura']['value']
                     print({"object":obj,"value":value,"query":"cmd"})
                     jsonRequest = {"object": obj.lower(), "value": value, "query": "cmd"}
                 else:
-                    state = RequestJson['Switch_State']['value']
-                    print(RequestJson['Switch_State']['value'])
+                    state = RequestJson['statoswitch']['value']
+                    print(RequestJson['statoswitch']['value'])
                     print({"object": "switch", "value": state, "query": "cmd"})
                     jsonRequest = {"object": "switch", "value": state, "query": "cmd"}
             else:
-                if 'value' in RequestJson['Sensor_Values'].keys():
-                    if 'temperature' in RequestJson['Sensor_Values']['value']:
+                if 'value' in RequestJson['tiposensore'].keys():
+                    if 'temperatura' in RequestJson['tiposensore']['value']:
                         #print('What is the current temperature?')
-                        print({"object": "temperature", "value": "temperature", "query": "?"})
-                        jsonRequest = {"object": "temperature", "value": "temperature", "query": "?"}
+                        print({"object": "temperatura", "value": "temperatura", "query": "?"})
+                        jsonRequest = {"object": "temperatura", "value": "temperatura", "query": "?"}
                         # {"object":"humidity","query":"?"}
                     else:
                         print('What is the current humidity?')
                         # {"object":"humidity","query":"?"}
-                        print({"object": "humidity", "value": "humidity", "query": "?"})
-                        jsonRequest = {"object": "humidity", "value": "humidity", "query": "?"}
+                        print({"object": "umidita", "value": "umidita", "query": "?"})
+                        jsonRequest = {"object": "umidita", "value": "umidita", "query": "?"}
                 else:
                     print('What is the switch state?')
                     # {"object":"switch","query":"?"}
-                    print({"object": "switch", "value": "state", "query": "?"})
-                    jsonRequest = {"object": "switch", "value": "state", "query": "?"}
+                    print({"object": "switch", "value": "stato", "query": "?"})
+                    jsonRequest = {"object": "switch", "value": "stato", "query": "?"}
             with open('data.json', 'w') as outfile:
                 json.dump(json.dumps(jsonRequest), outfile)
                 #await self.rwebsocket.send(alexaRequest)
