@@ -9,10 +9,6 @@ For details, see http://sourceforge.net/projects/libb64
 #include <core_esp8266_features.h>
 #endif
 
-#if defined(ESP32)
-#define CORE_HAS_LIBB64
-#endif
-
 #ifndef CORE_HAS_LIBB64
 #include "cencode_inc.h"
 
@@ -39,9 +35,9 @@ int base64_encode_block(const char* plaintext_in, int length_in, char* code_out,
 	char* codechar = code_out;
 	char result;
 	char fragment;
-
+	
 	result = state_in->result;
-
+	
 	switch (state_in->step)
 	{
 		while (1)
@@ -80,7 +76,7 @@ int base64_encode_block(const char* plaintext_in, int length_in, char* code_out,
 			*codechar++ = base64_encode_value(result);
 			result  = (fragment & 0x03f) >> 0;
 			*codechar++ = base64_encode_value(result);
-
+			
 			++(state_in->stepcount);
 			if (state_in->stepcount == CHARS_PER_LINE/4)
 			{
@@ -96,7 +92,7 @@ int base64_encode_block(const char* plaintext_in, int length_in, char* code_out,
 int base64_encode_blockend(char* code_out, base64_encodestate* state_in)
 {
 	char* codechar = code_out;
-
+	
 	switch (state_in->step)
 	{
 	case step_B:
@@ -112,7 +108,7 @@ int base64_encode_blockend(char* code_out, base64_encodestate* state_in)
 		break;
 	}
 	*codechar++ = 0x00;
-
+	
 	return codechar - code_out;
 }
 

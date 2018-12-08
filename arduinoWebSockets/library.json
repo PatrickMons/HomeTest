@@ -13,7 +13,7 @@
         "type": "git",
         "url": "https://github.com/Links2004/arduinoWebSockets.git"
     },
-    "version": "2.1.2",
+    "version": "2.0.7",
     "license": "LGPL-2.1",
     "export": {
         "exclude": [
@@ -21,5 +21,8 @@
         ]
     },
     "frameworks": "arduino",
-    "platforms": "atmelavr, espressif8266, espressif32"
+    "platforms": "*",
+    "examples": [
+        "examples/*/*.ino"
+    ]
 }
