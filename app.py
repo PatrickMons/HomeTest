@@ -47,7 +47,7 @@ class HttpWSSProtocol(websockets.WebSocketServerProtocol):
             #print("Req-->"+alexaRequest)
             RequestJson = json.loads(alexaRequest)['request']['intent']['slots']
 
-            if 'imposta' not in RequestJson['query'].values() and 'stato' not in RequestJson['query'].values():
+            if 'imposta' not in RequestJson['query'].values() and 'che' not in RequestJson['query'].values():
 
                 print('cmd')
                 if 'value' not in RequestJson['statoswitch'].keys():
@@ -59,7 +59,7 @@ class HttpWSSProtocol(websockets.WebSocketServerProtocol):
                     state = RequestJson['statoswitch']['value']
                     print(RequestJson['statoswitch']['value'])
                     print({"object": "switch", "value": state, "query": "cmd"})
-                    jsonRequest = {"object": "switch", "value": state, "query": "cmd"}
+                    jsonRequest = {"object": "interruttore", "value": state, "query": "cmd"}
             else:
                 if 'value' in RequestJson['tiposensore'].keys():
                     if 'temperatura' in RequestJson['tiposensore']['value']:
@@ -75,8 +75,8 @@ class HttpWSSProtocol(websockets.WebSocketServerProtocol):
                 else:
                     print('What is the switch state?')
                     # {"object":"switch","query":"?"}
-                    print({"object": "switch", "value": "stato", "query": "?"})
-                    jsonRequest = {"object": "switch", "value": "stato", "query": "?"}
+                    print({"object": "interruttore", "value": "stato", "query": "?"})
+                    jsonRequest = {"object": "interruttore", "value": "stato", "query": "?"}
             with open('data.json', 'w') as outfile:
                 json.dump(json.dumps(jsonRequest), outfile)
                 #await self.rwebsocket.send(alexaRequest)
